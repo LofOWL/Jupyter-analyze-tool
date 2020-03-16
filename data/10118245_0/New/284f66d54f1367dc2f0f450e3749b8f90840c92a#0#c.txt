@@ -1,0 +1,1 @@
+[{"block": 0, "type": "heading", "linesLength": 1, "startIndex": 0, "lines": ["Mini-projets"]}, {"block": 1, "type": "markdown", "linesLength": 2, "startIndex": 1, "lines": ["Mentionner le point d'entr\u00e9e dans la doc pour voir le contenu de toute la librairie standard&nbsp;:\n", "https://docs.python.org/2/library/index.html"]}]
