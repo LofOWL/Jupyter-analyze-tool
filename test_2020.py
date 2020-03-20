@@ -7,6 +7,7 @@ import sys
 
 
 from Diff import Diff
+from old2new import Old2New
 
 class Folder:
 
@@ -104,31 +105,19 @@ if __name__ == "__main__":
     id = list(filter_list["id"])
     n_id = [ repo.createElement(i) for i in id]
 
-    select_n = [ i for i in n_id if i.id == '9e54faf891f9c2fea00673c6d5d5cb25d4986c7e#0']
-
-    error_n = select_n[0]
-    print(error_n.get_new_child_data())
-    print(error_n.get_old_child_data())
     current = "/home/lofowl/Desktop/Jupyter-analyze-tool"
+    for element in n_id:
+        print(element)
+        test = Old2New(old_path=element.old_child_path,new_path=element.new_child_path)
+        test.map()
+        test = Old2New(old_path = element.old_parent_path,new_path=element.new_parent_path)
+        test.map()
+        element.create_new_parent_data_txt(current)
+        element.create_new_child_data_txt(current)
 
-    error_n.create_new_parent_data_txt(current)
-    error_n.create_new_child_data_txt(current)
+        len_child = len(element.get_new_child_data())
+        len_parent = len(element.get_new_parent_data())
+        print(f"child: {len_child} parent: {len_parent}")
 
-    diff = Diff(error_n)
-    diff.diff()
-
-    # index = int(sys.argv[1])
-    # element = n_id[index]
-
-    # current = "/home/lofowl/Desktop/Jupyter-analyze-tool"
-    # for element in n_id:
-    #     print(element)
-    #     element.create_new_parent_data_txt(current)
-    #     element.create_new_child_data_txt(current)
-    #
-    #     len_child = len(element.get_new_child_data())
-    #     len_parent = len(element.get_new_parent_data())
-    #     print(f"child: {len_child} parent: {len_parent}")
-    #
-    #     diff = Diff(element)
-    #     diff.diff(save_path="/home/lofowl/Desktop/Jupyter-analyze-tool/test")
+        diff = Diff(element)
+        diff.diff(save_path="/home/lofowl/Desktop/10118245_0/Map")
