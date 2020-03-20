@@ -98,26 +98,30 @@ old_child_path: {self.old_child_path}'''
 if __name__ == "__main__":
     repo = Folder("/home/lofowl/Desktop/10118245_0")
     test = repo.transfer_data
-    test = test[test["id"] == "aa247965158316f7560f990ee5c9f8a73d4e628a#0"]
-    print(test)
-    filter_list = repo.transfer_data[repo.transfer_data["status"] == "diff-error"]
+    print(len(test))
+    print(set(test["status"]))
+
+    print(len(os.listdir("/home/lofowl/Desktop/10118245_0/Map")))
+    print(len(os.listdir("/home/lofowl/Desktop/10118245_1/Map")))
+    filter_list = repo.transfer_data[repo.transfer_data["status"] != "no-cells"]
 
     id = list(filter_list["id"])
     n_id = [ repo.createElement(i) for i in id]
 
-    current = "/home/lofowl/Desktop/Jupyter-analyze-tool"
-    for element in n_id:
-        print(element)
-        test = Old2New(old_path=element.old_child_path,new_path=element.new_child_path)
-        test.map()
-        test = Old2New(old_path = element.old_parent_path,new_path=element.new_parent_path)
-        test.map()
-        element.create_new_parent_data_txt(current)
-        element.create_new_child_data_txt(current)
 
-        len_child = len(element.get_new_child_data())
-        len_parent = len(element.get_new_parent_data())
-        print(f"child: {len_child} parent: {len_parent}")
-
-        diff = Diff(element)
-        diff.diff(save_path="/home/lofowl/Desktop/10118245_0/Map")
+    # current = "/home/lofowl/Desktop/Jupyter-analyze-tool"
+    # for element in n_id:
+    #     print(element)
+    #     test = Old2New(old_path=element.old_child_path,new_path=element.new_child_path)
+    #     test.map()
+    #     test = Old2New(old_path = element.old_parent_path,new_path=element.new_parent_path)
+    #     test.map()
+    #     element.create_new_parent_data_txt(current)
+    #     element.create_new_child_data_txt(current)
+    #
+    #     len_child = len(element.get_new_child_data())
+    #     len_parent = len(element.get_new_parent_data())
+    #     print(f"child: {len_child} parent: {len_parent}")
+    #
+    #     diff = Diff(element)
+    #     diff.diff(save_path="/home/lofowl/Desktop/10118245_0/Map")

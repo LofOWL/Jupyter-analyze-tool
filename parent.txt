@@ -1,24 +1,30 @@
-# load data from files
-import json
+Quelques opérations utiles sur les nombres
+Opérations 'bitwise'
+Il est possible aussi de faire des opérations "bit-à-bit" sur les nombres entiers. \\
+le plus simple est de penser à l'écriture du nombre en base 2
+Par exemple
 
-with open("data/marine-e1-ext.json") as feed:
-    extended = json.load(feed)
-    
-with open("data/marine-e1-abb.json") as feed:
-    abbreviated = json.load(feed)
-# les données étendues sont une liste de listes qui ressemblent à ceci
-print extended [7]
-# les données abbrégées sont une liste de listes comme
-print abbreviated [0]
-def merge (extended, abbreviated):
-    "<votre_code>"
-from corrections.w3_marine import correction_merge
-correction_merge(merge, extended, abbreviated)
-# le résultat correct
-from corrections.w3_marine import resultat_merge
-resultat = resultat_merge (extended, abbreviated)
-# a quoi ressemble le resultat pour le premier bateau
-from pprint import pprint
-for cle_valeur in resultat.iteritems():
-    pprint (cle_valeur)
-    break
+$x = 49 = 32 + 16 + 1 \rightarrow (0,1,1,0,0,0,1) $
+
+$y = 81 = 64 + 16 + 1 \rightarrow (1,0,1,0,0,0,1) $
+
+x=49
+y=81
+L'opération logique '&' va faire un 'et' logique bit à bit entre les opérandes, ainsi
+x&y
+Et en effet
+
+$(0,1,1,0,0,0,1) $
+
+$(1,0,1,0,0,0,1) $
+
+$(0,0,1,0,0,0,1) \rightarrow 17$
+De même, l'opération logique '|' fait simplement un 'ou' logique, comme ceci
+x|y
+On s'y retrouve parce que
+
+$(0,1,1,0,0,0,1) $
+
+$(1,0,1,0,0,0,1) $
+
+$(1,1,1,0,0,0,1) \rightarrow 64+32+16+1$
