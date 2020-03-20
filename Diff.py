@@ -19,10 +19,10 @@ import json as js
 
 class Diff:
 
-    def __init__(self,**data):
-        self.current = data["current"]
+    def __init__(self,element):
 
-        self.element = data["element"]
+        self.element = element
+        self.current = self.element.java_tool_path
         self.savePath = "/" + self.element.id
         self.parentPath = self.element.new_parent_path
         self.childPath = self.element.new_child_path
@@ -45,7 +45,7 @@ class Diff:
         return result
 
 
-    def diff(self):
+    def diff(self,**data):
 
         os.chdir(self.current)
 
@@ -83,7 +83,12 @@ class Diff:
         diff = diff + missing_data
         diff.sort(key=lambda x: Diff.line(x).child())
 
-        with open(self.current+self.savePath,"w") as text:
+        print(f'{self.current} {self.savePath}')
+        if len(data) == 0:
+            save2path = self.current+self.savePath
+        else:
+            save2path = data["save_path"] + self.savePath
+        with open(save2path,"w") as text:
             for i in diff:
                 text.write(",".join(i)+"\n")
 

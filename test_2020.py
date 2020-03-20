@@ -47,28 +47,34 @@ class Folder:
             with open(self.new_parent_path,"r") as data:
                 return js.loads(data.read())
 
-        def create_new_parent_data_txt(self):
+        def create_new_parent_data_txt(self,savePath):
             data = self.get_new_parent_data()
             new_list_cells = [x['lines'] for x in data]
             new_index_dict = {x:len(new_list_cells[x]) for x in range(len(new_list_cells))}
             new_output = [y.replace("\n","") for x in new_list_cells for y in x ]
-            with open("parent.txt","w") as data:
+            with open(savePath+"/parent.txt","w") as data:
                 for i in new_output:
                     data.write(i+"\n")
+
+            self.java_tool_path = savePath
+            self.parent_txt = savePath + "/parent.txt"
 
 
         def get_new_child_data(self):
             with open(self.new_child_path,"r") as data:
                 return js.loads(data.read())
 
-        def create_new_child_data_txt(self):
+        def create_new_child_data_txt(self,savePath):
             data = self.get_new_child_data()
             new_list_cells = [x['lines'] for x in data]
             new_index_dict = {x:len(new_list_cells[x]) for x in range(len(new_list_cells))}
             new_output = [y.replace("\n","") for x in new_list_cells for y in x ]
-            with open("child.txt","w") as data:
+            with open(savePath+"/child.txt","w") as data:
                 for i in new_output:
                     data.write(i+"\n")
+
+            self.java_tool_path = savePath
+            self.child_txt = savePath + "/child.txt"
 
         def get_old_parent_data(self):
             with open(self.old_parent_path,"r") as data:
@@ -90,20 +96,39 @@ old_child_path: {self.old_child_path}'''
 
 if __name__ == "__main__":
     repo = Folder("/home/lofowl/Desktop/10118245_0")
-    filter_list = repo.transfer_data[repo.transfer_data["status"] != "success"]
+    test = repo.transfer_data
+    test = test[test["id"] == "aa247965158316f7560f990ee5c9f8a73d4e628a#0"]
+    print(test)
+    filter_list = repo.transfer_data[repo.transfer_data["status"] == "diff-error"]
 
     id = list(filter_list["id"])
     n_id = [ repo.createElement(i) for i in id]
 
-    index = int(sys.argv[1])
-    element = n_id[index]
-    element.create_new_parent_data_txt()
-    element.create_new_child_data_txt()
+    select_n = [ i for i in n_id if i.id == '9e54faf891f9c2fea00673c6d5d5cb25d4986c7e#0']
 
-    len_child = len(element.get_new_child_data())
-    len_parent = len(element.get_new_parent_data())
-    print(f"child: {len_child} parent: {len_parent}")
+    error_n = select_n[0]
+    print(error_n.get_new_child_data())
+    print(error_n.get_old_child_data())
+    current = "/home/lofowl/Desktop/Jupyter-analyze-tool"
 
-    current = "/home/lofowl/Desktop/Jupyter-project-tool"
-    diff = Diff(element=element,current=current)
+    error_n.create_new_parent_data_txt(current)
+    error_n.create_new_child_data_txt(current)
+
+    diff = Diff(error_n)
     diff.diff()
+
+    # index = int(sys.argv[1])
+    # element = n_id[index]
+
+    # current = "/home/lofowl/Desktop/Jupyter-analyze-tool"
+    # for element in n_id:
+    #     print(element)
+    #     element.create_new_parent_data_txt(current)
+    #     element.create_new_child_data_txt(current)
+    #
+    #     len_child = len(element.get_new_child_data())
+    #     len_parent = len(element.get_new_parent_data())
+    #     print(f"child: {len_child} parent: {len_parent}")
+    #
+    #     diff = Diff(element)
+    #     diff.diff(save_path="/home/lofowl/Desktop/Jupyter-analyze-tool/test")
